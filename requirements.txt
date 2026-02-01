@@ -1,0 +1,18 @@
+# Core ML / CLIP
+torch
+torchvision
+open-clip-torch
+
+# Data + metrics
+numpy
+pandas
+scikit-learn
+tqdm
+
+# Plotting / analysis
+matplotlib
+seaborn
+matplotlib-venn
+
+# Notebook support
+jupyter
