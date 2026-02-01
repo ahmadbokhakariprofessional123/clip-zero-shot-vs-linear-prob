@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+*.nbconvert.ipynb
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Data (do not commit datasets)
+data/
+datasets/
+*.csv
+*.zip
+*.tar
+*.tar.gz
+
+# Outputs
+results/
+outputs/
+runs/
+logs/
+
+# Model / cache folders
+.cache/
+wandb/
+huggingface/
+HF_HOME/
+TRANSFORMERS_CACHE/
+TORCH_HOME/
