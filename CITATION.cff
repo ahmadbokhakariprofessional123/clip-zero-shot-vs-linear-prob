@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you use this project, please cite it."
+title: "Zero-Shot Image Classification with CLIP: Prompt Engineering vs Linear Probe"
+type: software
+authors:
+  - family-names: "YOUR_LAST_NAME"
+    given-names: "YOUR_FIRST_NAME"
+repository-code: "https://github.com/YOUR_GITHUB_USERNAME/clip-zero-shot-vs-linear-probe"
+keywords:
+  - "CLIP"
+  - "zero-shot"
+  - "prompt engineering"
+  - "image classification"
+  - "CIFAR-10"
+license: "MIT"
