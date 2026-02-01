@@ -1,0 +1,23 @@
+# Scripts / Notebooks
+
+This folder contains runnable notebooks/scripts for the **CLIP CIFAR-10** experiments.
+
+---
+
+## clip_cifar10_eval.ipynb
+
+Runs the evaluation pipeline for the project, including:
+- Loading **CIFAR-10**
+- Extracting CLIP image/text embeddings
+- **Zero-shot** classification with:
+  - single prompt
+  - universal prompt ensemble
+  - class-specific prompt ensemble
+- Reporting **Recall@1** and **Recall@5**
+- (Optional) visualizations such as confusion matrix / plots (if included in the notebook)
+
+### How to run
+
+#### Option A: Jupyter Notebook / JupyterLab
+```bash
+jupyter notebook
