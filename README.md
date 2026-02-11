@@ -97,13 +97,11 @@ Key findings:
 
 ## Per-Class Recall Across Prompt Methods
 
-![Per-Class Recall Heatmap](images/Per-Class%20Recall@1%20Across%20Prompt%20Methods.png)
+![Per Class Recall](images/zero_shot_vs_linear_probe.png)
 
 ---
 
-## Per-Class Performance: Zero-Shot vs Linear Probe
-
-![Zero-Shot vs Linear Probe](images/per-class%20performance%20between%20zero-shot%20%26%20linear%20probe.png)
+![Per Class Recall Heatmap](images/per_class_recall_prompt_methods.png)
 
 ---
 
