@@ -172,8 +172,6 @@ pip install -r requirements.txt
 
 If you do not have a requirements file, install manually:
 
-pip install torch torchvision transformers tqdm matplotlib numpy
-
 
 ### 4. Run the Notebook
 
