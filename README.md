@@ -1,133 +1,199 @@
-CLIP Zero-Shot vs Linear Probe on CIFAR-10
-PROJECT OVERVIEW
+# Zero-Shot vs Linear Probe Comparison using CLIP (ViT-B/32)
 
-This project evaluates the performance of OpenAI’s CLIP (ViT-B/32) model in zero-shot image classification on a subset of CIFAR-10 and compares it with a supervised linear probe classifier trained on frozen CLIP image embeddings.
+## Clear Summary
 
-The objective was to analyse how different prompting strategies affect zero-shot performance and to understand when supervised adaptation improves classification results.
+This project investigates whether prompt engineering can improve the performance of a zero-shot CLIP model on low-resolution CIFAR-10 images, and compares it against a supervised linear probe classifier trained on frozen CLIP image embeddings.
 
-DATASET
+Using 1000 fixed CIFAR-10 images, three prompting strategies were evaluated:
 
-Dataset: CIFAR-10
-Subset Size: 1000 images (100 per class)
-Image Resolution: 32 by 32
-Classes: airplane, automobile, bird, cat, deer, dog, frog, horse, ship, truck
-Random Seed: Fixed to ensure reproducibility
+- Single Canonical Prompt
+- Universal Prompt Ensemble
+- Class-Specific Prompt Ensemble
 
-All zero-shot experiments used a frozen CLIP encoder.
-The linear probe was trained using extracted CLIP image embeddings.
+The best zero-shot method (Class-Specific Prompt Ensemble) improved Recall@1 from 0.851 to 0.863. However, a supervised linear probe outperformed all zero-shot methods, correcting 97 out of 120 zero-shot errors.
 
-METHODOLOGY
-Zero-Shot Prompting Strategies
+The results show that prompt engineering helps, especially for visually ambiguous animal classes, but it cannot fully compensate for CIFAR-10’s low resolution (32×32 images).
 
-Three prompting approaches were evaluated:
+---
 
-Single Canonical Prompt
-Example: "a photo of a class"
+## Plain Language Explanation
 
-Universal Prompt Ensemble
-Multiple general templates were averaged together to reduce prompt sensitivity.
+### What is CLIP?
 
-Class-Specific Prompt Ensemble
-Descriptive prompts were manually designed for each class, such as
-"a flying airplane" or "a jet aircraft in the sky".
+CLIP (Contrastive Language–Image Pretraining) is a vision-language model trained to connect images and text.
 
-Text embeddings were normalised and averaged to form class prototypes.
+Instead of learning from traditional labeled datasets (like “this is a dog”), CLIP was trained on hundreds of millions of image–text pairs from the internet. It learns by matching images to their correct text descriptions.
 
-Linear Probe Model
+In simple terms:
 
-CLIP image encoder kept frozen
+- CLIP turns images into numbers (image embeddings).
+- CLIP turns text into numbers (text embeddings).
+- If the numbers are similar, the image and text likely match.
 
-512-dimensional embeddings extracted
+It does this using two transformer models:
+- A Vision Transformer (for images)
+- A Text Transformer (for text)
 
-Softmax regression classifier trained on embeddings
+Both outputs are 512-dimensional vectors that can be compared using cosine similarity.
 
-Evaluated using Recall at 1 and Recall at 5
+---
 
-RESULTS
-Zero-Shot Performance (Macro Average)
-Method	Recall at 1	Recall at 5
-Single Prompt	0.851	0.996
-Universal Ensemble	0.855	0.992
-Class-Specific Ensemble	0.863	0.997
-Linear Probe vs Zero-Shot Error Comparison
+### What is Zero-Shot Learning?
 
-Zero-Shot Errors: 120
-Linear Probe Errors: 26
-Errors Fixed by Linear Probe: 97
-Errors Introduced by Linear Probe: 3
-Shared Errors: 23
+Zero-shot learning means making predictions without training on the target dataset.
 
-KEY RESULTS
+Instead of training on CIFAR-10 images directly, we:
 
-Class-specific prompt ensembling achieved the best zero-shot performance with Recall at 1 equal to 0.863
+1. Write text prompts like:
+   - "a photo of a dog"
+2. Convert them into embeddings using CLIP.
+3. Compare them with image embeddings.
+4. Rank images by similarity.
 
-Prompt engineering improved performance by approximately 1 to 2 percent
+No model weights are updated.
 
-The supervised linear probe significantly outperformed zero-shot methods
+The model relies entirely on its prior knowledge learned from internet data.
 
-Most zero-shot errors were corrected by supervised adaptation
+---
 
-Low-resolution images limited overall model performance
+## Project Objective
 
-LIMITATIONS AND FUTURE IMPROVEMENTS
+To evaluate:
 
-Current limitations
+1. Whether prompt engineering improves zero-shot retrieval.
+2. Whether class-specific prompts outperform generic prompts.
+3. Whether supervised learning still performs better.
+4. How low-resolution images affect performance.
 
-CIFAR-10 resolution is much lower than CLIP’s original training data
+---
 
-Prompt design is subjective
+## Dataset
 
-Linear probe trained and tested on overlapping data which may cause overfitting
+CIFAR-10
 
-Domain mismatch between CLIP pre-training data and CIFAR images
+- 60,000 colour images
+- 32×32 resolution
+- 10 classes
+- 1000 fixed images used for testing (100 per class, seed = 0)
+- 2000 images used for linear probe training
 
-Potential improvements
+No fine-tuning of CLIP was allowed.
 
-Evaluate performance on higher-resolution datasets
+---
 
-Perform strict train and test separation for linear probe
+## Models Compared
 
-Test larger CLIP model variants
+1. Single Canonical Prompt  
+   Example: "a photo of a {}"
 
-Explore automated prompt optimisation
+2. Universal Prompt Ensemble  
+   Six general templates averaged per class.
 
-WHAT IS CLIP AND ZERO-SHOT CLASSIFICATION
+3. Class-Specific Prompt Ensemble  
+   Six descriptive templates written specifically for each class.
 
-CLIP, which stands for Contrastive Language–Image Pre-training, is a vision-language model trained on image and text pairs collected from the internet.
+4. Linear Probe  
+   A supervised softmax classifier trained on frozen CLIP image embeddings.
 
-Instead of learning from labelled categories directly, CLIP learns to align images and text descriptions in a shared embedding space.
+---
 
-Zero-shot classification means the model can classify images into new categories without being explicitly trained on those categories.
+## Evaluation Metrics
 
-The process works by converting images and text prompts into numerical embeddings and selecting the class whose text embedding is most similar to the image embedding.
+- Recall@1  
+- Recall@5  
 
-WHAT I LEARNED
+Recall@1 checks if the top result is correct.  
+Recall@5 checks if the correct class appears in the top five results.
 
-How zero-shot classification works using vision-language models
+Recall@5 is useful because CIFAR-10 images are low resolution and often visually similar.
 
-How prompt wording directly affects model performance
+---
 
-Why prompt ensembling stabilises predictions
+## Results (Macro Average)
 
-How frozen embeddings can be reused for supervised downstream tasks
+| Model                   | Recall@1 | Recall@5 |
+|--------------------------|----------|----------|
+| Single Prompt           | 0.851    | 0.996    |
+| Universal Ensemble      | 0.855    | 0.992    |
+| Class-Specific Ensemble | 0.863    | 0.997    |
+| Linear Probe            | Higher than all zero-shot models |
 
-The difference between retrieval-style classification and supervised training
+Key findings:
 
-How structured error analysis reveals model behaviour
+- Prompt ensembling improves performance.
+- Class-specific prompts perform best.
+- Animal classes benefit most from richer descriptions.
+- Frog remains the hardest class due to low resolution.
+- Linear probe significantly reduces errors.
 
-TOOLS AND TECHNOLOGIES
+---
 
-Python
+## Error Analysis
 
-PyTorch
+- Zero-shot errors: 120  
+- Linear probe errors: 26  
+- Errors fixed by linear probe: 97  
+- Shared errors: 23  
 
-Hugging Face Transformers
+This shows many zero-shot errors come from text-image misalignment rather than complete visual failure.
 
-OpenAI CLIP ViT-B/32
+---
 
-NumPy
+## Prompt Sensitivity Index (PSI)
 
-Matplotlib
+Macro average improvement: +0.02
+
+This means class-specific prompt ensembling improves Recall@1 by approximately 2% compared to a single prompt.
+
+Most sensitive class: Horse  
+Least sensitive class: Automobile  
+
+---
+
+## Limitations
+
+- CIFAR-10 images are extremely low resolution (32×32).
+- CLIP was trained on high-resolution internet images.
+- Prompt design is subjective.
+- Linear probe used overlapping training and testing images (risk of overfitting).
+
+---
+
+## What I Learned
+
+1. Prompt engineering matters.  
+   Small wording changes can measurably affect performance.
+
+2. Zero-shot models are powerful but fragile.  
+   They rely heavily on text-image alignment.
+
+3. Low resolution is a major bottleneck.  
+   Prompt improvements cannot fully recover lost visual detail.
+
+4. Supervised learning is still stronger when labeled data is available.  
+   The linear probe significantly outperformed zero-shot retrieval.
+
+5. Error analysis is critical.  
+   Comparing which errors are fixed helps understand whether improvements come from better text alignment or better feature learning.
+
+6. Model evaluation must consider fairness and bias.  
+   CLIP’s internet pretraining introduces background and representation biases.
+
+---
+
+## Future Improvements
+
+- Explore automatic prompt learning (CoOp / CoCoOp)
+- Use larger CLIP models (ViT-L/14)
+- Apply super-resolution preprocessing
+- Evaluate on higher-resolution datasets
+- Introduce safer deployment monitoring
+
+---
+
+## Project Structure
+
+
 
 Jupyter Notebook
 
