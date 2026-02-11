@@ -101,7 +101,10 @@ Key findings:
 
 ---
 
-![Per Class Recall Heatmap](images/zero_shot_vs_linear_probe.png)
+## Per-Class Performance: Zero-Shot vs Linear Probe
+
+![Per-Class Performance](images/linear_probe_recall.png)
+
 
 ---
 
