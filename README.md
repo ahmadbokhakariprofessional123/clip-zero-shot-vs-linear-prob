@@ -126,6 +126,15 @@ Key findings:
 - Frog remains the hardest class due to low resolution.
 - Linear probe significantly reduces errors.
 
+ ### Per-Class Recall Across Prompt Methods
+
+![Prompt Heatmap](images/Per-Class Recall@1 Across Prompt Methods.png)
+
+### Per-Class Performance: Zero-Shot vs Linear Probe
+
+![Per-Class Performance](images/per-class performance between zero-shot & linear probe.png)
+
+
 ---
 
 ## Error Analysis
@@ -136,6 +145,10 @@ Key findings:
 - Shared errors: 23  
 
 This shows many zero-shot errors come from text-image misalignment rather than complete visual failure.
+
+### Error Overlap Between Prompting Strategies
+
+![Error Overlap](images/error overlap between prompting strategies.png)
 
 ---
 
