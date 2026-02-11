@@ -101,7 +101,7 @@ Key findings:
 
 ---
 
-![Per Class Recall Heatmap](images/per_class_recall_prompt_methods.png)
+![Per Class Recall Heatmap](images/zero_shot_vs_linear_probe.png)
 
 ---
 
